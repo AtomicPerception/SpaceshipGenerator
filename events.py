@@ -451,22 +451,21 @@ def generateSpaceship(entry):
 
     # Extrude out the hull along the X axis, adding some semi-random perturbations
     for face in bm.faces[:]:
-        if abs(face.normal.x) > 0.5:
+        if abs(face.normal.x) > entry.rnd_normal_chance:
             hull_segment_length = uniform(0.3, 1)
             num_hull_segments = randrange(num_hull_segments_min, num_hull_segments_max)
             hull_segment_range = range(num_hull_segments)
             for i in hull_segment_range:
                 is_last_hull_segment = i == hull_segment_range[-1]
                 val = random()
-                if val > 0.1:
+                if val > entry.rnd_extrusion_chance:
                     # Most of the time, extrude out the face with some random deviations
                     face = extrude_face(bm, face, hull_segment_length)
-                    if random() > 0.75:
-                        face = extrude_face(
-                            bm, face, hull_segment_length * 0.25)
+                    if random() > entry.rnd_extrusion_deviation_chance:
+                        face = extrude_face(bm, face, hull_segment_length * 0.25)
 
                     # Maybe apply some scaling
-                    if random() > 0.5:
+                    if random() > entry.rnd_scaling_chance:
                         sy = uniform(1.2, 1.5)
                         sz = uniform(1.2, 1.5)
                         if is_last_hull_segment or random() > 0.5:
@@ -475,17 +474,15 @@ def generateSpaceship(entry):
                         scale_face(bm, face, 1, sy, sz)
 
                     # Maybe apply some sideways translation
-                    if random() > 0.5:
+                    if random() > entry.rnd_side_trans_chance:
                         sideways_translation = Vector(
                             (0, 0, uniform(0.1, 0.4) * scale_vector.z * hull_segment_length))
                         if random() > 0.5:
                             sideways_translation = -sideways_translation
-                        bmesh.ops.translate(bm,
-                                            vec=sideways_translation,
-                                            verts=face.verts)
+                        bmesh.ops.translate(bm, vec=sideways_translation, verts=face.verts)
 
                     # Maybe add some rotation around Y axis
-                    if random() > 0.5:
+                    if random() > entry.rnd_roty_chance:
                         angle = 5
                         if random() > 0.5:
                             angle = -angle
@@ -496,8 +493,7 @@ def generateSpaceship(entry):
                 else:
                     # Rarely, create a ribbed section of the hull
                     rib_scale = uniform(0.75, 0.95)
-                    face = ribbed_extrude_face(
-                        bm, face, hull_segment_length, randint(2, 4), rib_scale)
+                    face = ribbed_extrude_face(bm, face, hull_segment_length, randint(2, 4), rib_scale)
 
     # Add some large asynmmetrical sections of the hull that stick out
     if create_asymmetry_segments:
