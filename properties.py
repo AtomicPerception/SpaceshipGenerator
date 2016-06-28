@@ -48,7 +48,6 @@ class cls_AnimSpacGen(bpy.types.PropertyGroup):
 
 	random_seed = bpy.props.IntProperty(name="Seed", description="Set the random seed for this AnimSpacGen object", default = 31, min = -420, max = 420, update=updateAnimSpacGenParameter)
 
-
 	num_hull_segments_min = bpy.props.IntProperty(name="Hull Seg Min", description="Min. Hull Segments", default = 3, min = 1, max = 24, update=updateAnimSpacGenParameter)
 	num_hull_segments_max = bpy.props.IntProperty(name="Hull Seg Max", description="Max. Hull Segments", default = 6, min = 1, max = 24, update=updateAnimSpacGenParameter)
 	num_asymmetry_segments_min = bpy.props.IntProperty(name="Sym Seg Min", description="Min. Asymmetry Segments", default = 1, min = 1, max = 24, update=updateAnimSpacGenParameter)
@@ -60,6 +59,14 @@ class cls_AnimSpacGen(bpy.types.PropertyGroup):
 	allow_vertical_symmetry = bpy.props.BoolProperty(name="Allow Vertical Symmetry", default=False, options={'ANIMATABLE'}, subtype='NONE', update=updateAnimSpacGenParameter)
 	apply_bevel_modifier = bpy.props.BoolProperty(name="Apply Bevel Modifier", default=True, options={'ANIMATABLE'}, subtype='NONE', update=updateAnimSpacGenParameter)
 	assign_materials = bpy.props.BoolProperty(name="Assign Materials", default=True, options={'ANIMATABLE'}, subtype='NONE', update=updateAnimSpacGenParameter)
+
+	rnd_normal_chance = bpy.props.FloatProperty(name="Rnd Normal Chance", default=0.5, min=0.0001, max=1.0, update=updateAnimSpacGenParameter)
+	rnd_extrusion_chance = bpy.props.FloatProperty(name="Rnd Extrusion Chance", default=0.1, min=0.0001, max=1.0, update=updateAnimSpacGenParameter)
+	rnd_extrusion_deviation_chance = bpy.props.FloatProperty(name="Rnd Extrusion Chance", default=0.75, min=0.0001, max=1.0, update=updateAnimSpacGenParameter)
+	rnd_hull_extrude_chance = bpy.props.FloatProperty(name="Rnd Hull Extrude Chance", default=0.5, min=0.0001, max=1.0, update=updateAnimSpacGenParameter)
+	rnd_scaling_chance = bpy.props.FloatProperty(name="Rnd Scaling Chance", default=0.5, min=0.0001, max=1.0, update=updateAnimSpacGenParameter)
+	rnd_side_trans_chance = bpy.props.FloatProperty(name="Rnd Sideways Translate Chance", default=0.5, min=0.0001, max=1.0, update=updateAnimSpacGenParameter)
+	rnd_roty_chance = bpy.props.FloatProperty(name="Rnd Rotate Y Axis Chance", default=0.5, min=0.0001, max=1.0, update=updateAnimSpacGenParameter)
 
 	material_types = [
 				("0","Custom","custom"),
